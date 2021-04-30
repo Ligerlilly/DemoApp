@@ -10,9 +10,9 @@
 import "react-native-gesture-handler";
 import React from "react";
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
+    // SafeAreaView,
+    // ScrollView,
+    // StatusBar,
     StyleSheet,
     Text,
     useColorScheme,
@@ -24,54 +24,56 @@ import { Provider } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import {
     Colors,
-    DebugInstructions,
-    Header,
-    LearnMoreLinks,
-    ReloadInstructions,
+    // DebugInstructions,
+    // Header,
+    // LearnMoreLinks,
+    // ReloadInstructions,
 } from "react-native/Libraries/NewAppScreen";
+import Login from "./src/scenes/session/login";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-function LoginScreen() {
-    const isDarkMode = useColorScheme() === "dark";
+// function LoginScreen() {
+//     const isDarkMode = useColorScheme() === "dark";
 
-    const backgroundStyle = {
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
-    return (
-        <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? "light-content" : "dark-content"}
-            />
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}
-            >
-                <Header />
-                <View
-                    style={{
-                        backgroundColor: isDarkMode
-                            ? Colors.black
-                            : Colors.white,
-                    }}
-                >
-                    <Section title="Step One">
-                        Edit <Text style={styles.highlight}>App.js</Text> to
-                        change this screen and then come back to see your edits.
-                    </Section>
-                    <Section title="See Your Changes">
-                        <ReloadInstructions />
-                    </Section>
-                    <Section title="Debug">
-                        <DebugInstructions />
-                    </Section>
-                    <Section title="Learn More">
-                        Read the docs to discover what to do next:
-                    </Section>
-                    <LearnMoreLinks />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    );
-}
+//     const backgroundStyle = {
+//         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+//     };
+//     return (
+//         <SafeAreaView style={backgroundStyle}>
+//             <StatusBar
+//                 barStyle={isDarkMode ? "light-content" : "dark-content"}
+//             />
+//             <ScrollView
+//                 contentInsetAdjustmentBehavior="automatic"
+//                 style={backgroundStyle}
+//             >
+//                 <Header />
+//                 <View
+//                     style={{
+//                         backgroundColor: isDarkMode
+//                             ? Colors.black
+//                             : Colors.white,
+//                     }}
+//                 >
+//                     <Section title="Step One">
+//                         Edit <Text style={styles.highlight}>App.js</Text> to
+//                         change this screen and then come back to see your edits.
+//                     </Section>
+//                     <Section title="See Your Changes">
+//                         <ReloadInstructions />
+//                     </Section>
+//                     <Section title="Debug">
+//                         <DebugInstructions />
+//                     </Section>
+//                     <Section title="Learn More">
+//                         Read the docs to discover what to do next:
+//                     </Section>
+//                     <LearnMoreLinks />
+//                 </View>
+//             </ScrollView>
+//         </SafeAreaView>
+//     );
+// }
 
 const Section: React.FC<{
     title: string;
@@ -107,9 +109,11 @@ const App = () => {
     return (
         <Provider store={store}>
             <NavigationContainer>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Login" component={LoginScreen} />
-                </Stack.Navigator>
+                <SafeAreaProvider>
+                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="Login" component={Login} />
+                    </Stack.Navigator>
+                </SafeAreaProvider>
             </NavigationContainer>
         </Provider>
     );
