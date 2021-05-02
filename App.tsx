@@ -18,7 +18,7 @@ import {
     useColorScheme,
     View,
 } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+// import { NavigationContainer } from "@react-navigation/native";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -29,8 +29,9 @@ import {
     // LearnMoreLinks,
     // ReloadInstructions,
 } from "react-native/Libraries/NewAppScreen";
-import Login from "./src/scenes/session/login";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+// import Login from "./src/scenes/session/login";
+// import { SafeAreaProvider } from "react-native-safe-area-context";
+import BaseNavigator from "./src/navigators/base_navigator";
 
 // function LoginScreen() {
 //     const isDarkMode = useColorScheme() === "dark";
@@ -108,13 +109,14 @@ const Stack = createStackNavigator();
 const App = () => {
     return (
         <Provider store={store}>
-            <NavigationContainer>
+            {/* <NavigationContainer>
                 <SafeAreaProvider>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                         <Stack.Screen name="Login" component={Login} />
                     </Stack.Navigator>
                 </SafeAreaProvider>
-            </NavigationContainer>
+            </NavigationContainer> */}
+            <BaseNavigator />
         </Provider>
     );
 };

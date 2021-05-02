@@ -24,6 +24,9 @@ export const Mixins = {
 };
 
 export const Strings = {
+    home: {
+        title: "Welcome",
+    },
     login: {
         title: "Login",
         loginBtnTitle: "Login",

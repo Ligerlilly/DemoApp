@@ -10,6 +10,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Colors, Strings } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { receiveSession } from "../../../store/modules/session/session_slice";
+import { StackScreenProps } from "@react-navigation/stack";
+import { RootStackParamList } from "../../navigators/base_navigator";
+
+type Props = StackScreenProps<RootStackParamList, "Login">;
 
 /**
  * Scene state
@@ -27,7 +31,7 @@ const initialLoginState: LoginState = {
     password: "",
 };
 
-const Login = () => {
+const Login = ({ navigation }: Props) => {
     /**
      * Hooks
      */
@@ -42,6 +46,7 @@ const Login = () => {
         const { username, password } = state;
         if (!!username && !!password) {
             dispatch(receiveSession({ username, password }));
+            navigation.navigate("Home");
         }
     };
 
@@ -59,13 +64,19 @@ const Login = () => {
                 <Text
                     style={{
                         fontSize: Size.large,
-                        marginTop: Size.medium,
+                        marginTop: Size.xxlarge,
+                        marginBottom: Size.xxlarge,
                         alignSelf: "center",
                     }}
                 >
                     {Strings.login.title}
                 </Text>
-                <View style={{ marginTop: Size.medium }}>
+                <View
+                    style={{
+                        marginTop: Size.xxlarge,
+                        marginBottom: Size.xsmall,
+                    }}
+                >
                     <TextInput
                         onChangeText={(text: string) => {
                             setState({ ...state, username: text });
