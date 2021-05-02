@@ -13,6 +13,9 @@ import { receiveSession } from "../../../store/modules/session/session_slice";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigators/base_navigator";
 
+/**
+ * Scene props
+ */
 type Props = StackScreenProps<RootStackParamList, "Login">;
 
 /**
