@@ -19,7 +19,7 @@ type LoginProps = StackScreenProps<RootStackParamList, "Login">;
 interface LoginState {
     readonly username: string;
     readonly password: string;
-    readonly hasLoginError: boolean;
+    readonly isUsernameOrPasswordMissing: boolean;
 }
 
 /**
@@ -28,7 +28,7 @@ interface LoginState {
 const initialLoginState: LoginState = {
     username: "",
     password: "",
-    hasLoginError: false,
+    isUsernameOrPasswordMissing: false,
 };
 
 const Login = ({ navigation }: LoginProps) => {
@@ -49,17 +49,21 @@ const Login = ({ navigation }: LoginProps) => {
             return;
         }
 
-        setState({ ...state, hasLoginError: true });
+        setState({ ...state, isUsernameOrPasswordMissing: true });
     };
 
     const onChangeText = (stateKey: string) => (text: string) => {
-        setState({ ...state, [stateKey]: text, hasLoginError: false });
+        setState({
+            ...state,
+            [stateKey]: text,
+            isUsernameOrPasswordMissing: false,
+        });
     };
 
     /**
      * Data
      */
-    const { hasLoginError } = state;
+    const { isUsernameOrPasswordMissing } = state;
 
     /**
      * Template
@@ -68,7 +72,7 @@ const Login = ({ navigation }: LoginProps) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={Mixins.container}>
                 <Text style={styles.title}>{Strings.login.title}</Text>
-                {hasLoginError && (
+                {isUsernameOrPasswordMissing && (
                     <Text style={styles.error}>
                         {Strings.login.missingUsernameOrPasswordError}
                     </Text>
