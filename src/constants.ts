@@ -35,5 +35,6 @@ export const Strings = {
         usernameInputPlaceholder: "username",
         passwordInputPlaceholder: "password",
         missingUsernameOrPasswordError: "Please enter username and password.",
+        invalidEmail: "Please enter a valid email address.",
     },
 };

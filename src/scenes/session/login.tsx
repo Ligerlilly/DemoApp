@@ -7,6 +7,7 @@ import { receiveSession } from "../../../store/modules/session/session_slice";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigators/base_navigator";
 import LoginFrom from "./components/login_form";
+import { validateEmail } from "../../utils/email_utils";
 
 /**
  * Scene props
@@ -20,6 +21,7 @@ interface LoginState {
     readonly username: string;
     readonly password: string;
     readonly isUsernameOrPasswordMissing: boolean;
+    readonly isEmailInvalid: boolean;
 }
 
 /**
@@ -29,6 +31,7 @@ const initialLoginState: LoginState = {
     username: "",
     password: "",
     isUsernameOrPasswordMissing: false,
+    isEmailInvalid: false,
 };
 
 const Login = ({ navigation }: LoginProps) => {
@@ -43,7 +46,12 @@ const Login = ({ navigation }: LoginProps) => {
      */
     const handleLogin = () => {
         const { username, password } = state;
-        if (!!username && !!password) {
+        if (!validateEmail(username)) {
+            setState({ ...state, isEmailInvalid: true });
+            return;
+        }
+
+        if (!!username.trim() && !!password.trim()) {
             dispatch(receiveSession({ username, password }));
             navigation.navigate("Home");
             return;
@@ -57,13 +65,14 @@ const Login = ({ navigation }: LoginProps) => {
             ...state,
             [stateKey]: text,
             isUsernameOrPasswordMissing: false,
+            isEmailInvalid: false,
         });
     };
 
     /**
      * Data
      */
-    const { isUsernameOrPasswordMissing } = state;
+    const { isUsernameOrPasswordMissing, isEmailInvalid } = state;
 
     /**
      * Template
@@ -72,6 +81,11 @@ const Login = ({ navigation }: LoginProps) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={Mixins.container}>
                 <Text style={styles.title}>{Strings.login.title}</Text>
+                {isEmailInvalid && (
+                    <Text style={styles.error}>
+                        {Strings.login.invalidEmail}
+                    </Text>
+                )}
                 {isUsernameOrPasswordMissing && (
                     <Text style={styles.error}>
                         {Strings.login.missingUsernameOrPasswordError}
