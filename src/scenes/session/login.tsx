@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Colors, Strings } from "../../constants";
 import { useAppDispatch } from "../../../store/hooks";
