@@ -1,13 +1,11 @@
 import * as React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Colors, Strings } from "../../constants";
 import { useAppDispatch } from "../../../store/hooks";
-import { receiveSession } from "../../../store/modules/session/session_slice";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigators/base_navigator";
 import LoginFrom from "./components/login_form";
-import { validateEmail } from "../../utils/email_utils";
 
 /**
  * Scene props
@@ -18,8 +16,7 @@ type LoginProps = StackScreenProps<RootStackParamList, "Login">;
  * Scene state
  */
 interface LoginState {
-    readonly username: string;
-    readonly password: string;
+    readonly jobcoinAddress: string;
     readonly isUsernameOrPasswordMissing: boolean;
     readonly isEmailInvalid: boolean;
 }
@@ -28,8 +25,7 @@ interface LoginState {
  * Scene initial stae
  */
 const initialLoginState: LoginState = {
-    username: "",
-    password: "",
+    jobcoinAddress: "",
     isUsernameOrPasswordMissing: false,
     isEmailInvalid: false,
 };
@@ -45,14 +41,14 @@ const Login = ({ navigation }: LoginProps) => {
      * Methods
      */
     const handleLogin = () => {
-        const { username, password } = state;
-        if (!validateEmail(username)) {
-            setState({ ...state, isEmailInvalid: true });
-            return;
-        }
+        const { jobcoinAddress } = state;
+        // if (!validateEmail(username)) {
+        //     setState({ ...state, isEmailInvalid: true });
+        //     return;
+        // }
 
-        if (!!username.trim() && !!password.trim()) {
-            dispatch(receiveSession({ username, password }));
+        if (!!jobcoinAddress.trim()) {
+            // dispatch(receiveSession({ username, password }));
             navigation.navigate("Home");
             return;
         }
@@ -72,7 +68,11 @@ const Login = ({ navigation }: LoginProps) => {
     /**
      * Data
      */
-    const { isUsernameOrPasswordMissing, isEmailInvalid } = state;
+    const {
+        isUsernameOrPasswordMissing,
+        isEmailInvalid,
+        jobcoinAddress,
+    } = state;
 
     /**
      * Template
@@ -92,17 +92,10 @@ const Login = ({ navigation }: LoginProps) => {
                     </Text>
                 )}
                 <LoginFrom
-                    username={state.username}
-                    password={state.password}
+                    jobcoinAddress={jobcoinAddress}
                     onChangeText={onChangeText}
+                    handleLogin={handleLogin}
                 />
-                <View style={styles.btnContainer}>
-                    <TouchableOpacity style={styles.btn} onPress={handleLogin}>
-                        <Text style={styles.btnText}>
-                            {Strings.login.loginBtnTitle}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         </SafeAreaView>
     );
@@ -117,21 +110,6 @@ const styles = StyleSheet.create({
         marginTop: Size.xxlarge,
         marginBottom: Size.xxlarge,
         alignSelf: "center",
-    },
-
-    btnContainer: {
-        alignItems: "center",
-    },
-    btn: {
-        backgroundColor: Colors.primary,
-        width: "50%",
-        borderRadius: 10,
-        padding: Size.xsmall,
-    },
-    btnText: {
-        color: Colors.white,
-        fontSize: Size.small,
-        textAlign: "center",
     },
     error: {
         color: Colors.red,

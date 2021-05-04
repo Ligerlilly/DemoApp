@@ -30,10 +30,9 @@ export const Strings = {
         title: "Welcome",
     },
     login: {
-        title: "Login",
+        title: "Jobcoin",
         loginBtnTitle: "Login",
-        usernameInputPlaceholder: "username",
-        passwordInputPlaceholder: "password",
+        jobcoinInputPlaceholder: "jobcoin address",
         missingUsernameOrPasswordError: "Please enter username and password.",
         invalidEmail: "Please enter a valid email address.",
     },
