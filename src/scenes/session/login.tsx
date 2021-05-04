@@ -5,7 +5,9 @@ import { Size, Mixins, Colors, Strings } from "../../constants";
 import { useAppDispatch } from "../../../store/hooks";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigators/base_navigator";
-import LoginFrom from "./components/login_form";
+import LoginForm from "./components/login_form";
+import { fetchByJobcoinAddress } from "../../../store/modules/jobcoin/jobcoin_slice";
+import { receiveSession } from "../../../store/modules/session/session_slice";
 
 /**
  * Scene props
@@ -17,8 +19,7 @@ type LoginProps = StackScreenProps<RootStackParamList, "Login">;
  */
 interface LoginState {
     readonly jobcoinAddress: string;
-    readonly isUsernameOrPasswordMissing: boolean;
-    readonly isEmailInvalid: boolean;
+    readonly isJobcoinAddressdMissing: boolean;
 }
 
 /**
@@ -26,8 +27,7 @@ interface LoginState {
  */
 const initialLoginState: LoginState = {
     jobcoinAddress: "",
-    isUsernameOrPasswordMissing: false,
-    isEmailInvalid: false,
+    isJobcoinAddressdMissing: false,
 };
 
 const Login = ({ navigation }: LoginProps) => {
@@ -42,37 +42,29 @@ const Login = ({ navigation }: LoginProps) => {
      */
     const handleLogin = () => {
         const { jobcoinAddress } = state;
-        // if (!validateEmail(username)) {
-        //     setState({ ...state, isEmailInvalid: true });
-        //     return;
-        // }
 
         if (!!jobcoinAddress.trim()) {
-            // dispatch(receiveSession({ username, password }));
+            dispatch(fetchByJobcoinAddress(jobcoinAddress));
+            dispatch(receiveSession({ jobcoinAddress }));
             navigation.navigate("Home");
             return;
         }
 
-        setState({ ...state, isUsernameOrPasswordMissing: true });
+        setState({ ...state, isJobcoinAddressdMissing: true });
     };
 
     const onChangeText = (stateKey: string) => (text: string) => {
         setState({
             ...state,
             [stateKey]: text,
-            isUsernameOrPasswordMissing: false,
-            isEmailInvalid: false,
+            isJobcoinAddressdMissing: false,
         });
     };
 
     /**
      * Data
      */
-    const {
-        isUsernameOrPasswordMissing,
-        isEmailInvalid,
-        jobcoinAddress,
-    } = state;
+    const { isJobcoinAddressdMissing, jobcoinAddress } = state;
 
     /**
      * Template
@@ -81,17 +73,13 @@ const Login = ({ navigation }: LoginProps) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={Mixins.container}>
                 <Text style={styles.title}>{Strings.login.title}</Text>
-                {isEmailInvalid && (
+
+                {isJobcoinAddressdMissing && (
                     <Text style={styles.error}>
-                        {Strings.login.invalidEmail}
+                        {Strings.login.missingJobcoinAddress}
                     </Text>
                 )}
-                {isUsernameOrPasswordMissing && (
-                    <Text style={styles.error}>
-                        {Strings.login.missingUsernameOrPasswordError}
-                    </Text>
-                )}
-                <LoginFrom
+                <LoginForm
                     jobcoinAddress={jobcoinAddress}
                     onChangeText={onChangeText}
                     handleLogin={handleLogin}
@@ -115,6 +103,7 @@ const styles = StyleSheet.create({
         color: Colors.red,
         fontSize: Size.xsmall,
         textAlign: "center",
+        marginBottom: Size.xxsmall,
     },
 });
 

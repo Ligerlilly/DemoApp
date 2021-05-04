@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface Session {
-    readonly username: string;
-    readonly password: string;
+    readonly jobcoinAddress: string;
 }
 
 export const initialSessionState: Session = {
-    username: "",
-    password: "",
+    jobcoinAddress: "",
 };
 
 export const sessionSlice = createSlice({
@@ -18,9 +16,7 @@ export const sessionSlice = createSlice({
             reducer: (state, action: PayloadAction<Session>) => action.payload,
             prepare: (session: Session) => {
                 return {
-                    payload: {
-                        ...session,
-                    },
+                    payload: session,
                 };
             },
         },

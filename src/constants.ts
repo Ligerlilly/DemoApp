@@ -33,7 +33,6 @@ export const Strings = {
         title: "Jobcoin",
         loginBtnTitle: "Login",
         jobcoinInputPlaceholder: "jobcoin address",
-        missingUsernameOrPasswordError: "Please enter username and password.",
-        invalidEmail: "Please enter a valid email address.",
+        missingJobcoinAddress: "Please enter a valid jobcoin address.",
     },
 };
