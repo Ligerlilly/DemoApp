@@ -1,8 +1,8 @@
 import { Alert } from "react-native";
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { jobcoinClient } from "./jobcoin_client";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { jobcoinClient, TransactionParams } from "./jobcoin_client";
 
-interface Transaction {
+export interface Transaction {
     readonly amount: string;
     readonly timestamp: string;
     readonly toAddress: string;
@@ -19,46 +19,46 @@ export const initialJobcoinState: JobCoin = {
 };
 
 export const fetchByJobcoinAddress = createAsyncThunk(
-    "session/fetchByJobcoinAddress",
+    "jobcoin/fetchByJobcoinAddress",
     async (jobcoinAdress: string) => {
         const response = await jobcoinClient.fetchJobcoinAddress(jobcoinAdress);
         return response.data;
     }
 );
 
+export const sendCoinToAddress = createAsyncThunk(
+    "jobcoin/sendCoinToAddress",
+    async (transactionParams: TransactionParams) => {
+        const response = await jobcoinClient.sendCoinToAddress(
+            transactionParams
+        );
+        console.log(response);
+        return response.data;
+    }
+);
+
 export const jobcoinSlice = createSlice({
-    name: "session",
+    name: "jobcoin",
     initialState: initialJobcoinState as JobCoin,
-    reducers: {
-        receiveSession: {
-            reducer: (state, action: PayloadAction<JobCoin>) => action.payload,
-            prepare: (jobcoin: JobCoin) => {
-                return {
-                    payload: jobcoin,
-                };
-            },
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder.addCase(
             fetchByJobcoinAddress.fulfilled,
             (state, { payload }) => {
-                console.log(payload);
-
                 return payload;
             }
         ),
             builder.addCase(fetchByJobcoinAddress.rejected, (state, action) => {
-                //   if (action.payload) {
-                //     // Since we passed in `MyKnownError` to `rejectValue` in `updateUser`, the type information will be available here.
-                //     state.error = action.payload.errorMessage
-                //   } else {
-                //     state.error = action.error
-                //   }
-                Alert.alert("We're sorry something went wrong");
-            });
+                Alert.alert("jobcoin fetch failed");
+            }),
+            builder.addCase(
+                sendCoinToAddress.fulfilled,
+                (state, { payload }) => {
+                    console.log(payload);
+                    return payload;
+                }
+            );
     },
 });
 
-export const { receiveSession } = jobcoinSlice.actions;
 export default jobcoinSlice.reducer;

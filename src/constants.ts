@@ -28,11 +28,15 @@ export const Mixins = {
 export const Strings = {
     home: {
         title: "Welcome",
+        sendCoinBtnTitle: "Send",
+        toAddressPlaceholder: "Enter to address",
+        coinAmountPlaceholder: "Enter amount",
+        sendCoin: "Send coin",
     },
     login: {
         title: "Jobcoin",
         loginBtnTitle: "Login",
-        jobcoinInputPlaceholder: "jobcoin address",
+        jobcoinInputPlaceholder: "Enter jobcoin address",
         missingJobcoinAddress: "Please enter a valid jobcoin address.",
     },
 };

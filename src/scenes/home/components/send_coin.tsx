@@ -11,32 +11,40 @@ import { Size, Strings, Colors } from "../../../constants";
 /**
  * Component props
  */
-interface LoginFormProps {
-    readonly jobcoinAddress: string;
+interface SendCoinProps {
+    readonly toAddress: string;
+    readonly coinAmount: string;
     readonly onChangeText: (stateKey: string) => (text: string) => void;
-    readonly handleLogin: () => void;
+    readonly handleSendCoin: () => void;
 }
 
 /**
  * Template
  */
-const LoginForm = ({
-    jobcoinAddress,
+const SendCoin = ({
+    toAddress,
+    coinAmount,
     onChangeText,
-    handleLogin,
-}: LoginFormProps) => {
+    handleSendCoin,
+}: SendCoinProps) => {
     return (
-        <View style={styles.wrapper}>
+        <View>
             <TextInput
-                onChangeText={onChangeText("jobcoinAddress")}
-                placeholder={Strings.login.jobcoinInputPlaceholder}
+                onChangeText={onChangeText("toAddress")}
+                placeholder={Strings.home.toAddressPlaceholder}
                 style={styles.input}
-                value={jobcoinAddress}
+                value={toAddress}
+            />
+            <TextInput
+                onChangeText={onChangeText("amount")}
+                placeholder={Strings.home.coinAmountPlaceholder}
+                style={styles.input}
+                value={coinAmount}
             />
             <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btn} onPress={handleLogin}>
+                <TouchableOpacity style={styles.btn} onPress={handleSendCoin}>
                     <Text style={styles.btnText}>
-                        {Strings.login.loginBtnTitle}
+                        {Strings.home.sendCoinBtnTitle}
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -76,4 +84,4 @@ const styles = StyleSheet.create({
 /**
  * Export
  */
-export default LoginForm;
+export default SendCoin;
