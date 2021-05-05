@@ -32,6 +32,7 @@ export const Strings = {
         toAddressPlaceholder: "Enter to address",
         coinAmountPlaceholder: "Enter amount",
         sendCoin: "Send coin",
+        invalidForm: "Please enter a valid address and amount.",
     },
     login: {
         title: "Jobcoin",

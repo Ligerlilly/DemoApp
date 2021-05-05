@@ -9,7 +9,10 @@ export const calcBalances = (
     jobcoinAddress: string,
     transactions: ReadonlyArray<Transaction>
 ) => {
-    if (transactions.length === 0) return [];
+    if (transactions?.length === undefined || transactions.length === 0) {
+        return [];
+    }
+
     let balance = parseInt(transactions[0].amount, 10);
     const balanceHistory: BalanceHistory[] = [
         {

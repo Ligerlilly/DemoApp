@@ -50,14 +50,7 @@ export const jobcoinSlice = createSlice({
         ),
             builder.addCase(fetchByJobcoinAddress.rejected, (state, action) => {
                 Alert.alert("jobcoin fetch failed");
-            }),
-            builder.addCase(
-                sendCoinToAddress.fulfilled,
-                (state, { payload }) => {
-                    console.log(payload);
-                    return payload;
-                }
-            );
+            });
     },
 });
 

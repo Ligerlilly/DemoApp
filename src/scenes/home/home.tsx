@@ -1,33 +1,36 @@
 import * as React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Size, Mixins, Strings } from "../../constants";
+import { Size, Mixins, Strings, Colors } from "../../constants";
 import { useAppSelector } from "../../../store/hooks";
-import {
-    VictoryLine,
-    VictoryChart,
-    VictoryTheme,
-    VictoryAxis,
-} from "victory-native";
+import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
 import { calcBalances } from "../../utils/balance_utils";
 import SendCoin from "./components/send_coin";
-// import { addDays, subtractDays } from "../../utils/date_utils";
+import { useAppDispatch } from "../../../store/hooks";
+import {
+    sendCoinToAddress,
+    fetchByJobcoinAddress,
+} from "../../../store/modules/jobcoin/jobcoin_slice";
 
 const test = [new Date(2021, 1, 1), new Date(2021, 12, 1)];
 
 interface HomeState {
     readonly coinAmount: string;
     readonly toAddress: string;
-    readonly isFormValid: boolean;
+    readonly isFormInvalid: boolean;
 }
 
 const initialHomeState: HomeState = {
     coinAmount: "",
     toAddress: "",
-    isFormValid: false,
+    isFormInvalid: false,
 };
 
 const Home = () => {
+    /**
+     * Hooks
+     */
+    const dispatch = useAppDispatch();
     const [state, setState] = React.useState(initialHomeState);
     const { session, jobcoin } = useAppSelector((appstate) => appstate);
     const balanceHistory = calcBalances(
@@ -39,15 +42,34 @@ const Home = () => {
         setState({
             ...state,
             [stateKey]: text,
-            isFormValid: false,
+            isFormInvalid: false,
         });
     };
+    const { toAddress, coinAmount, isFormInvalid } = state;
 
-    const handleSendCoin = () => {
-        // do stuff
+    const handleSendCoin = async () => {
+        const { jobcoinAddress } = session;
+        if (!!toAddress && !!coinAmount) {
+            const resp = await dispatch(
+                sendCoinToAddress({
+                    toAddress,
+                    amount: coinAmount,
+                    fromAddress: jobcoinAddress,
+                })
+            );
+
+            if (resp.payload.status === "OK") {
+                dispatch(fetchByJobcoinAddress(jobcoinAddress));
+                setState(initialHomeState);
+                return;
+            }
+            Alert.alert("We're sorry something went wrong");
+            return;
+        }
+
+        setState({ ...state, isFormInvalid: true });
     };
 
-    const { toAddress, coinAmount } = state;
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
@@ -82,6 +104,9 @@ const Home = () => {
                     {`Your balance: $${jobcoin.balance || 0}`}
                 </Text>
                 <Text style={styles.sendCoin}>{Strings.home.sendCoin}</Text>
+                {isFormInvalid && (
+                    <Text style={styles.error}>{Strings.home.invalidForm}</Text>
+                )}
                 <SendCoin
                     toAddress={toAddress}
                     coinAmount={coinAmount}
@@ -110,6 +135,12 @@ const styles = StyleSheet.create({
     },
     sendCoin: {
         fontSize: Size.small,
+        marginBottom: Size.xxsmall,
+    },
+    error: {
+        color: Colors.red,
+        fontSize: Size.xsmall,
+        textAlign: "center",
         marginBottom: Size.xxsmall,
     },
 });

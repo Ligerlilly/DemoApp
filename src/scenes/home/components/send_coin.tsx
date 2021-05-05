@@ -36,7 +36,7 @@ const SendCoin = ({
                 value={toAddress}
             />
             <TextInput
-                onChangeText={onChangeText("amount")}
+                onChangeText={onChangeText("coinAmount")}
                 placeholder={Strings.home.coinAmountPlaceholder}
                 style={styles.input}
                 value={coinAmount}

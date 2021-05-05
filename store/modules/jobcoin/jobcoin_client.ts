@@ -26,11 +26,11 @@ export const jobcoinClient = {
     sendCoinToAddress: (transactionParams: TransactionParams) => {
         return axios
             .post(
-                "http://jobcoin.gemini.com/thicken-bronchial/api/transactions"
+                "http://jobcoin.gemini.com/thicken-bronchial/api/transactions",
+                {
+                    ...transactionParams,
+                }
             )
-            .send({
-                ...transactionParams,
-            })
             .then(function (response: AxiosResponse) {
                 // handle success
                 console.log(response);
