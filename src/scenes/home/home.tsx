@@ -66,9 +66,10 @@ const Home = () => {
                             width={350}
                             theme={VictoryTheme.material}
                             scale={{ x: "time" }}
+                            domain={{
+                                x: [new Date(2021, 4, 1), new Date(2021, 5, 1)],
+                            }}
                         >
-                            <VictoryAxis tickFormat={(x) => x.split("T")[0]} />
-                            <VictoryAxis dependentAxis tickFormat={(y) => y} />
                             <VictoryLine
                                 data={balanceHistory}
                                 x="timestamp"

@@ -2,7 +2,7 @@ import { Transaction } from "../../store/modules/jobcoin/jobcoin_slice";
 
 interface BalanceHistory {
     readonly balance: number;
-    readonly timestamp: string;
+    readonly timestamp: Date;
 }
 
 export const calcBalances = (
@@ -14,7 +14,7 @@ export const calcBalances = (
     const balanceHistory: BalanceHistory[] = [
         {
             balance: parseInt(transactions[0].amount, 10),
-            timestamp: transactions[0].timestamp,
+            timestamp: new Date(transactions[0].timestamp),
         },
     ];
     transactions.slice(1).forEach((transaction) => {
@@ -22,7 +22,7 @@ export const calcBalances = (
             balance += parseInt(transaction.amount, 10);
             balanceHistory.push({
                 balance,
-                timestamp: transaction.timestamp,
+                timestamp: new Date(transaction.timestamp),
             });
             return;
         }
@@ -30,7 +30,7 @@ export const calcBalances = (
         balance -= parseInt(transaction.amount, 10);
         balanceHistory.push({
             balance,
-            timestamp: transaction.timestamp,
+            timestamp: new Date(transaction.timestamp),
         });
     });
 
