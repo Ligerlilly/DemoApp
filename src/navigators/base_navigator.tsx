@@ -9,6 +9,11 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Login from "../scenes/session/login";
 import Home from "../scenes/home/home";
 
+/**
+ * Components
+ */
+import LogoutBtn from "../scenes/home/components/logout_button";
+
 export type RootStackParamList = {
     Login: undefined;
     Home: undefined;
@@ -26,6 +31,7 @@ function BaseNavigator() {
                         component={Home}
                         options={{
                             headerLeft: () => undefined,
+                            headerRight: () => <LogoutBtn />,
                             headerShown: true,
                             title: "Home",
                         }}

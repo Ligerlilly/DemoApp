@@ -12,14 +12,18 @@ import {
     fetchByJobcoinAddress,
 } from "../../../store/modules/jobcoin/jobcoin_slice";
 
-const test = [new Date(2021, 1, 1), new Date(2021, 12, 1)];
-
+/**
+ * Scene state
+ */
 interface HomeState {
     readonly coinAmount: string;
     readonly toAddress: string;
     readonly isFormInvalid: boolean;
 }
 
+/**
+ * Scene initial stae
+ */
 const initialHomeState: HomeState = {
     coinAmount: "",
     toAddress: "",
@@ -33,11 +37,19 @@ const Home = () => {
     const dispatch = useAppDispatch();
     const [state, setState] = React.useState(initialHomeState);
     const { session, jobcoin } = useAppSelector((appstate) => appstate);
+
+    /**
+     * Data
+     */
+    const { toAddress, coinAmount, isFormInvalid } = state;
     const balanceHistory = calcBalances(
         session.jobcoinAddress,
         jobcoin.transactions
     );
 
+    /**
+     * Methods
+     */
     const onChangeText = (stateKey: string) => (text: string) => {
         setState({
             ...state,
@@ -45,10 +57,10 @@ const Home = () => {
             isFormInvalid: false,
         });
     };
-    const { toAddress, coinAmount, isFormInvalid } = state;
 
     const handleSendCoin = async () => {
         const { jobcoinAddress } = session;
+
         if (!!toAddress && !!coinAmount) {
             const resp = await dispatch(
                 sendCoinToAddress({
@@ -70,6 +82,9 @@ const Home = () => {
         setState({ ...state, isFormInvalid: true });
     };
 
+    /**
+     * Template
+     */
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
@@ -118,19 +133,23 @@ const Home = () => {
     );
 };
 
+/**
+ * Styles
+ */
 const styles = StyleSheet.create({
     title: {
         fontSize: Size.large,
-        marginTop: Size.medium,
+        marginTop: Size.small,
         textAlign: "center",
     },
     jobcoinAddress: {
         textAlign: "center",
         fontSize: Size.medium,
-        marginBottom: Size.xxlarge,
+        marginBottom: Size.small,
     },
     balance: {
         fontSize: Size.small,
+        textAlign: "center",
         marginBottom: Size.medium,
     },
     sendCoin: {
@@ -145,4 +164,7 @@ const styles = StyleSheet.create({
     },
 });
 
+/**
+ * Export
+ */
 export default Home;

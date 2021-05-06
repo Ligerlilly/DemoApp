@@ -21,6 +21,9 @@ export const sessionSlice = createSlice({
             },
         },
     },
+    extraReducers: (builder) => {
+        builder.addCase("LOGOUT", (state, action) => initialSessionState);
+    },
 });
 
 export const { receiveSession } = sessionSlice.actions;

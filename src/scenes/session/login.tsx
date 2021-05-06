@@ -38,11 +38,14 @@ const Login = ({ navigation }: LoginProps) => {
     const [state, setState] = React.useState(initialLoginState);
 
     /**
+     * Data
+     */
+    const { isJobcoinAddressdMissing, jobcoinAddress } = state;
+
+    /**
      * Methods
      */
     const handleLogin = () => {
-        const { jobcoinAddress } = state;
-
         if (!!jobcoinAddress.trim()) {
             dispatch(fetchByJobcoinAddress(jobcoinAddress));
             dispatch(receiveSession({ jobcoinAddress }));
@@ -60,11 +63,6 @@ const Login = ({ navigation }: LoginProps) => {
             isJobcoinAddressdMissing: false,
         });
     };
-
-    /**
-     * Data
-     */
-    const { isJobcoinAddressdMissing, jobcoinAddress } = state;
 
     /**
      * Template
