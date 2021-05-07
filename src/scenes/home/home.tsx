@@ -46,6 +46,9 @@ const Home = () => {
         session.jobcoinAddress,
         jobcoin.transactions
     );
+    const previousMonth = new Date().getMonth();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
 
     /**
      * Methods
@@ -96,7 +99,11 @@ const Home = () => {
                 <Text style={styles.jobcoinAddress}>
                     {session.jobcoinAddress}
                 </Text>
-
+                {parseFloat(jobcoin.balance) === 0 && (
+                    <Text
+                        style={styles.noCoins}
+                    >{`You don't have any coins`}</Text>
+                )}
                 {jobcoin.transactions.length > 0 && (
                     <View>
                         <VictoryChart
@@ -104,7 +111,10 @@ const Home = () => {
                             theme={VictoryTheme.material}
                             scale={{ x: "time" }}
                             domain={{
-                                x: [new Date(2021, 4, 1), new Date(2021, 5, 1)],
+                                x: [
+                                    new Date(currentYear, previousMonth, 1),
+                                    new Date(currentYear, currentMonth, 1),
+                                ],
                             }}
                         >
                             <VictoryLine
@@ -115,19 +125,28 @@ const Home = () => {
                         </VictoryChart>
                     </View>
                 )}
-                <Text style={styles.balance}>
-                    {`Your balance: $${jobcoin.balance || 0}`}
-                </Text>
-                <Text style={styles.sendCoin}>{Strings.home.sendCoin}</Text>
-                {isFormInvalid && (
-                    <Text style={styles.error}>{Strings.home.invalidForm}</Text>
+                {parseFloat(jobcoin.balance) > 0 && (
+                    <View>
+                        <Text style={styles.balance}>
+                            {`Your balance: $${jobcoin.balance || 0}`}
+                        </Text>
+                        <Text style={styles.sendCoin}>
+                            {Strings.home.sendCoin}
+                        </Text>
+                        {isFormInvalid && (
+                            <Text style={styles.error}>
+                                {Strings.home.invalidForm}
+                            </Text>
+                        )}
+
+                        <SendCoin
+                            toAddress={toAddress}
+                            coinAmount={coinAmount}
+                            onChangeText={onChangeText}
+                            handleSendCoin={handleSendCoin}
+                        />
+                    </View>
                 )}
-                <SendCoin
-                    toAddress={toAddress}
-                    coinAmount={coinAmount}
-                    onChangeText={onChangeText}
-                    handleSendCoin={handleSendCoin}
-                />
             </ScrollView>
         </SafeAreaView>
     );
@@ -161,6 +180,10 @@ const styles = StyleSheet.create({
         fontSize: Size.xsmall,
         textAlign: "center",
         marginBottom: Size.xxsmall,
+    },
+    noCoins: {
+        textAlign: "center",
+        fontSize: Size.xsmall,
     },
 });
 
