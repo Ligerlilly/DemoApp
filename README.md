@@ -21,6 +21,7 @@ A non exhaustive list
 -   [React Native](https://reactnative.dev/)
 -   [Redux Toolkit](https://redux-toolkit.js.org/)
 -   [React Navigation](https://reactnavigation.org/)
+-   [Victory](https://formidable.com/open-source/victory/)
 -   [Jest](https://jestjs.io/)
 -   [Enzyme](https://enzymejs.github.io/enzyme/)
 
