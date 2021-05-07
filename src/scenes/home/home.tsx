@@ -100,9 +100,7 @@ const Home = () => {
                     {session.jobcoinAddress}
                 </Text>
                 {parseFloat(jobcoin.balance) === 0 && (
-                    <Text
-                        style={styles.noCoins}
-                    >{`You don't have any coins`}</Text>
+                    <Text style={styles.noCoins}>{Strings.home.noCoin}</Text>
                 )}
                 {jobcoin.transactions.length > 0 && (
                     <View>

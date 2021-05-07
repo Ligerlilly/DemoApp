@@ -34,6 +34,7 @@ export const Strings = {
         sendCoin: "Send coin",
         invalidForm: "Please enter an address and amount.",
         logout: "Logout",
+        noCoin: "You don't have any coins",
     },
     login: {
         title: "Jobcoin",
