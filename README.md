@@ -1,6 +1,6 @@
 # DemoApp
 
-an app for tracking and sending jobcoins
+An app for tracking and sending jobcoins
 
 ### Install instructions
 
