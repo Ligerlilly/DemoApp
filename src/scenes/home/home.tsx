@@ -78,7 +78,7 @@ const Home = () => {
                 setState(initialHomeState);
                 return;
             }
-            Alert.alert("We're sorry something went wrong");
+            Alert.alert(Strings.error.generic);
             return;
         }
 

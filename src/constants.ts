@@ -42,4 +42,8 @@ export const Strings = {
         jobcoinInputPlaceholder: "Enter jobcoin address",
         missingJobcoinAddress: "Please enter a valid jobcoin address.",
     },
+    error: {
+        generic: "We're sorry something went wrong.",
+        jobcoinFetch: "Jobcoin fetch failed.",
+    },
 };

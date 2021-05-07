@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { jobcoinClient, TransactionParams } from "./jobcoin_client";
+import { Strings } from "../../../src/constants";
 
 export interface Transaction {
     readonly amount: string;
@@ -49,7 +50,7 @@ export const jobcoinSlice = createSlice({
             }
         ),
             builder.addCase(fetchByJobcoinAddress.rejected, (state, action) => {
-                Alert.alert("jobcoin fetch failed");
+                Alert.alert(Strings.error.jobcoinFetch);
             });
         builder.addCase("LOGOUT", (state, action) => initialJobcoinState);
     },
