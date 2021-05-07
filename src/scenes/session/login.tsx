@@ -23,7 +23,7 @@ interface LoginState {
 }
 
 /**
- * Scene initial stae
+ * Scene initial state
  */
 const initialLoginState: LoginState = {
     jobcoinAddress: "",

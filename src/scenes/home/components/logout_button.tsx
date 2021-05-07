@@ -4,6 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import { Size, Colors, Strings } from "../../../constants";
 import { useAppDispatch } from "../../../../store/hooks";
 
+/**
+ * Template
+ */
 const LogoutButton = () => {
     const navigation = useNavigation();
     const dispatch = useAppDispatch();
@@ -22,6 +25,9 @@ const LogoutButton = () => {
     );
 };
 
+/**
+ * Styles
+ */
 const styles = StyleSheet.create({
     btn: {
         marginRight: Size.xsmall,
@@ -32,4 +38,7 @@ const styles = StyleSheet.create({
     },
 });
 
+/**
+ * Export
+ */
 export default LogoutButton;
