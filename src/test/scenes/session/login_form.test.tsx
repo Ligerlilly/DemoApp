@@ -7,9 +7,7 @@ describe("<LoginForm/>", () => {
     describe("Login button", () => {
         it("it should call handleLogin when pressed", () => {
             const mockHandleLogin = jest.fn();
-            const mockOnChangeText = (stateKey: string) => (text: string) => {
-                // no op
-            };
+            const mockOnChangeText = jest.fn();
 
             const wrapper = shallow(
                 <LoginForm
