@@ -14,7 +14,7 @@ Run the following commands in the terminal in DemoApp root dir
 -   npm run ios
 -   you can login as Alice or Bob
 
-to get android to work (sigh, this could be a local problem) i had to
+to get android to work (sigh, this could be a local problem) I had to
 
 -   go to `Configure>SDK Manager` in android studio
 -   select `SDK tools` and install `Google Play Licensing Library`
