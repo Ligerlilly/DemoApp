@@ -23,7 +23,7 @@ interface BarChartProps {
 export const BarChart = ({ balances }: BarChartProps) => {
     const data: DataPoint[] = balances.map((b: BalanceHistory) => ({
         value: b.balance,
-        label: moment(b.timestamp).format("ddd MM/YYYY"),
+        label: moment(b.timestamp).format("MM/DD/YYYY"),
     }));
     const SVGHeight = 150;
     const SVGWidth = 300;
@@ -33,7 +33,7 @@ export const BarChart = ({ balances }: BarChartProps) => {
     // X scale point
     const xDomain = data.map((item: DataPoint) => item.label);
     const xRange = [0, graphWidth];
-    const x = d3.scalePoint().domain(xDomain).range(xRange).padding(1);
+    const x = d3.scalePoint().domain(xDomain).range(xRange).padding(0.5);
 
     // Y scale linear
     const maxValue = d3.max(data, (d) => d.value) || 0;
@@ -117,8 +117,9 @@ export const BarChart = ({ balances }: BarChartProps) => {
                             x={x(item.label)}
                             y="10"
                             textAnchor="middle"
+                            fill="black"
                         >
-                            "hi"
+                            {item.label}
                         </Text>
                     );
                 })}
