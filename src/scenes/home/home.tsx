@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Strings, Colors } from "../../constants";
 import { useAppSelector } from "../../../store/hooks";
-// import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
+import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
 import { calcBalances } from "../../utils/balance_utils";
 import SendCoin from "./components/send_coin";
 import { useAppDispatch } from "../../../store/hooks";
@@ -13,20 +13,20 @@ import {
 } from "../../../store/modules/jobcoin/jobcoin_slice";
 import BarGraph, { DataPoint } from "./components/bar_graph";
 
-const data: DataPoint[] = [
-    { label: "Jan", value: 500 },
-    { label: "Feb", value: 312 },
-    { label: "Mar", value: 424 },
-    { label: "Apr", value: 745 },
-    { label: "May", value: 89 },
-    { label: "Jun", value: 434 },
-    { label: "Jul", value: 650 },
-    { label: "Aug", value: 980 },
-    { label: "Sep", value: 123 },
-    { label: "Oct", value: 186 },
-    { label: "Nov", value: 689 },
-    { label: "Dec", value: 643 },
-];
+// const data: DataPoint[] = [
+//     { label: "Jan", value: 500 },
+//     { label: "Feb", value: 312 },
+//     { label: "Mar", value: 424 },
+//     { label: "Apr", value: 745 },
+//     { label: "May", value: 89 },
+//     { label: "Jun", value: 434 },
+//     { label: "Jul", value: 650 },
+//     { label: "Aug", value: 980 },
+//     { label: "Sep", value: 123 },
+//     { label: "Oct", value: 186 },
+//     { label: "Nov", value: 689 },
+//     { label: "Dec", value: 643 },
+// ];
 
 /**
  * Scene state
@@ -58,13 +58,13 @@ const Home = () => {
      * Data
      */
     const { toAddress, coinAmount, isFormInvalid } = state;
-    // const balanceHistory = calcBalances(
-    //     session.jobcoinAddress,
-    //     jobcoin.transactions
-    // );
-    // const previousMonth = new Date().getMonth();
-    // const currentMonth = new Date().getMonth() + 1;
-    // const currentYear = new Date().getFullYear();
+    const balanceHistory = calcBalances(
+        session.jobcoinAddress,
+        jobcoin.transactions
+    );
+    const previousMonth = new Date().getMonth();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentYear = new Date().getFullYear();
 
     /**
      * Methods
@@ -120,7 +120,7 @@ const Home = () => {
                 )}
                 {jobcoin.transactions.length > 0 && (
                     <View>
-                        {/* <VictoryChart
+                        <VictoryChart
                             width={350}
                             theme={VictoryTheme.material}
                             scale={{ x: "time" }}
@@ -136,12 +136,12 @@ const Home = () => {
                                 x="timestamp"
                                 y="balance"
                             />
-                        </VictoryChart> */}
+                        </VictoryChart>
+                        <View style={{ alignItems: "center" }}>
+                            <BarGraph balances={balanceHistory} />
+                        </View>
                     </View>
                 )}
-                <View style={{ alignItems: "center" }}>
-                    <BarGraph data={data} />
-                </View>
                 {parseFloat(jobcoin.balance) > 0 && (
                     <View>
                         <Text style={styles.balance}>

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Svg, G, Rect, Line, Text } from "react-native-svg";
 import * as d3 from "d3";
+import { BalanceHistory } from "../../../utils/balance_utils";
+import moment from "moment";
 
 const GRAPH_MARGIN = 20;
 const GRAPH_BAR_WIDTH = 5;
@@ -15,10 +17,14 @@ export interface DataPoint {
 }
 
 interface BarChartProps {
-    data: DataPoint[];
+    balances: BalanceHistory[];
 }
 
-export const BarChart = ({ data }: BarChartProps) => {
+export const BarChart = ({ balances }: BarChartProps) => {
+    const data: DataPoint[] = balances.map((b: BalanceHistory) => ({
+        value: b.balance,
+        label: moment(b.timestamp).format("ddd MM/YYYY"),
+    }));
     const SVGHeight = 150;
     const SVGWidth = 300;
     const graphHeight = SVGHeight - 2 * GRAPH_MARGIN;
@@ -26,7 +32,7 @@ export const BarChart = ({ data }: BarChartProps) => {
 
     // X scale point
     const xDomain = data.map((item: DataPoint) => item.label);
-    const xRange = [0, 300];
+    const xRange = [0, graphWidth];
     const x = d3.scalePoint().domain(xDomain).range(xRange).padding(1);
 
     // Y scale linear
@@ -42,7 +48,7 @@ export const BarChart = ({ data }: BarChartProps) => {
             <G y={graphHeight + GRAPH_MARGIN}>
                 {/* Top value label */}
                 <Text
-                    x={300}
+                    x={SVGWidth}
                     textAnchor="end"
                     y={y(maxValue) * -1 - 10}
                     fontSize={12}
@@ -56,7 +62,7 @@ export const BarChart = ({ data }: BarChartProps) => {
                 <Line
                     x1="0"
                     y1={y(maxValue) * -1}
-                    x2={300}
+                    x2={SVGWidth}
                     y2={y(maxValue) * -1}
                     stroke={colors.axis}
                     strokeDasharray={[3, 3]}
@@ -67,7 +73,7 @@ export const BarChart = ({ data }: BarChartProps) => {
                 <Line
                     x1="0"
                     y1={y(middleValue) * -1}
-                    x2={300}
+                    x2={SVGWidth}
                     y2={y(middleValue) * -1}
                     stroke={colors.axis}
                     strokeDasharray={[3, 3]}
@@ -78,20 +84,20 @@ export const BarChart = ({ data }: BarChartProps) => {
                 <Line
                     x1="0"
                     y1="2"
-                    x2={300}
+                    x2={SVGWidth}
                     y2="2"
                     stroke={colors.axis}
                     strokeWidth="0.5"
                 />
 
                 {/* bars */}
-                {data.map((item: DataPoint) => {
+                {data.map((item: DataPoint, i) => {
                     const xVal = x(item.label) || 0;
                     console.log(item.label);
                     console.log(xVal);
                     return (
                         <Rect
-                            key={item.label}
+                            key={item.label + i}
                             x={xVal - GRAPH_BAR_WIDTH / 2}
                             y={y(item.value) * -1}
                             rx={2.5}
@@ -102,28 +108,20 @@ export const BarChart = ({ data }: BarChartProps) => {
                     );
                 })}
 
-                {/* bottom axis */}
-                <Line
-                    x1="0"
-                    y1="2"
-                    x2={300}
-                    y2="2"
-                    stroke={colors.axis}
-                    strokeWidth="0.5"
-                />
-
                 {/* labels */}
-                {data.map((item) => (
-                    <Text
-                        key={"label" + item.label}
-                        fontSize="8"
-                        x={x(item.label)}
-                        y="10"
-                        textAnchor="middle"
-                    >
-                        {item.label}
-                    </Text>
-                ))}
+                {data.map((item, i) => {
+                    return (
+                        <Text
+                            key={"label" + item.label + i}
+                            fontSize="8"
+                            x={x(item.label)}
+                            y="10"
+                            textAnchor="middle"
+                        >
+                            "hi"
+                        </Text>
+                    );
+                })}
             </G>
         </Svg>
     );

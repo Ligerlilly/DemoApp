@@ -2,12 +2,12 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Colors, Strings } from "../../constants";
-// import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import { StackScreenProps } from "@react-navigation/stack";
 import { RootStackParamList } from "../../navigators/base_navigator";
 import LoginForm from "./components/login_form";
-// import { fetchByJobcoinAddress } from "../../../store/modules/jobcoin/jobcoin_slice";
-// import { receiveSession } from "../../../store/modules/session/session_slice";
+import { fetchByJobcoinAddress } from "../../../store/modules/jobcoin/jobcoin_slice";
+import { receiveSession } from "../../../store/modules/session/session_slice";
 
 /**
  * Scene props
@@ -34,7 +34,7 @@ const Login = ({ navigation }: LoginProps) => {
     /**
      * Hooks
      */
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
     const [state, setState] = React.useState(initialLoginState);
 
     /**
@@ -46,15 +46,14 @@ const Login = ({ navigation }: LoginProps) => {
      * Methods
      */
     const handleLogin = () => {
-        navigation.navigate("Home");
         if (!!jobcoinAddress.trim()) {
-            // dispatch(fetchByJobcoinAddress(jobcoinAddress));
-            // dispatch(receiveSession({ jobcoinAddress }));
-            // navigation.navigate("Home");
+            dispatch(fetchByJobcoinAddress(jobcoinAddress));
+            dispatch(receiveSession({ jobcoinAddress }));
+            navigation.navigate("Home");
             return;
         }
 
-        // setState({ ...state, isJobcoinAddressdMissing: true });
+        setState({ ...state, isJobcoinAddressdMissing: true });
     };
 
     const onChangeText = (stateKey: string) => (text: string) => {
