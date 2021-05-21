@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Size, Mixins, Colors, Strings } from "../../constants";
 import { useAppDispatch } from "../../../store/hooks";
@@ -82,6 +82,13 @@ const Login = ({ navigation }: LoginProps) => {
                     onChangeText={onChangeText}
                     handleLogin={handleLogin}
                 />
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate("Onboarding");
+                    }}
+                >
+                    <Text style={{ textAlign: "center" }}>Onboarding</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );

@@ -14,9 +14,18 @@ import Home from "../scenes/home/home";
  */
 import LogoutBtn from "../scenes/home/components/logout_button";
 
+/**
+ * Navigators
+ */
+import Onboarding from "./onboarding";
+
 export type RootStackParamList = {
     Login: undefined;
     Home: undefined;
+    Onboarding: undefined;
+    Scene1: undefined;
+    Scene2: undefined;
+    Scene3: undefined;
 };
 
 const Stack = createStackNavigator();
@@ -26,6 +35,7 @@ function BaseNavigator() {
             <SafeAreaProvider>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Login" component={Login} />
+                    <Stack.Screen name="Onboarding" component={Onboarding} />
                     <Stack.Screen
                         name="Home"
                         component={Home}
